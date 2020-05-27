@@ -1,0 +1,54 @@
+[
+  {
+    "name": "version",
+    "length": 4
+  },
+  {
+    "name": "ihl",
+    "length": 4
+  },
+  {
+    "name": "dscp",
+    "length": 6
+  },
+  {
+    "name": "ecn",
+    "length": 2
+  },
+  {
+    "name": "total_length",
+    "length": 16
+  },
+  {
+    "name": "identification",
+    "length": 16
+  },
+  {
+    "name": "flags",
+    "length": 3
+  },
+  {
+    "name": "frag_offset",
+    "length": 13
+  },
+  {
+    "name": "ttl",
+    "length": 8
+  },
+  {
+    "name": "protocol",
+    "length": 8
+  },
+  {
+    "name": "hdr_checksum",
+    "length": 16
+  },
+  {
+    "name": "addr_src",
+    "length": 32
+  },
+  {
+    "name": "addr_dst",
+    "length": 32
+  }
+]

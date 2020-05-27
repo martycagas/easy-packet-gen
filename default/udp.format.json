@@ -1,0 +1,18 @@
+[
+  {
+    "name": "src_port",
+    "length": 16
+  },
+  {
+    "name": "dst_port",
+    "length": 16
+  },
+  {
+    "name": "length",
+    "length": 16
+  },
+  {
+    "name": "checksum",
+    "length": 16
+  }
+]

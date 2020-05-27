@@ -1,0 +1,14 @@
+[
+  {
+    "name": "mac_dst",
+    "length": 48
+  },
+  {
+    "name": "mac_src",
+    "length": 48
+  },
+  {
+    "name": "ethertype",
+    "length": 16
+  }
+]
