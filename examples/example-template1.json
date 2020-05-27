@@ -1,0 +1,11 @@
+{
+  "headers": [
+    "eth",
+    "ipv4",
+    "udp"
+  ],
+  "payload": {
+    "length": 128,
+    "content": "random"
+  }
+}
