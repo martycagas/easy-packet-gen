@@ -58,36 +58,45 @@ def main():
         sys.exit(1)
 
     # Parse template and prepare header generators
-    generators = []
+    generators = {}
 
     for header in headers_template:
         if header == 'eth':
-            try:
-                with open('default/eth.struct.json', 'r') as file:
-                    data = load(file)
-                    generators.append(EthHGen(data))
-                    del (data)
-            except (IOError):
-                print(header + ' format file found not found!', file=sys.stderr)
-                sys.exit(1)
+            if header in generators:
+                continue
+            else:
+                try:
+                    with open('default/eth.struct.json', 'r') as file:
+                        data = load(file)
+                        generators[header] = EthHGen(data)
+                        del (data)
+                except (IOError):
+                    print(header + ' format file found not found!', file=sys.stderr)
+                    sys.exit(1)
         elif header == 'ipv4':
-            try:
-                with open('default/ipv4.struct.json', 'r') as file:
-                    data = load(file)
-                    generators.append(Ipv4HGen(data))
-                    del (data)
-            except (IOError):
-                print(header + ' format file found not found!', file=sys.stderr)
-                sys.exit(1)
+            if header in generators:
+                continue
+            else:
+                try:
+                    with open('default/ipv4.struct.json', 'r') as file:
+                        data = load(file)
+                        generators[header] = Ipv4HGen(data)
+                        del (data)
+                except (IOError):
+                    print(header + ' format file found not found!', file=sys.stderr)
+                    sys.exit(1)
         elif header == 'udp':
-            try:
-                with open('default/udp.struct.json', 'r') as file:
-                    data = load(file)
-                    generators.append(UdpHGen(data))
-                    del (data)
-            except (IOError):
-                print(header + ' format file found not found!', file=sys.stderr)
-                sys.exit(1)
+            if header in generators:
+                continue
+            else:
+                try:
+                    with open('default/udp.struct.json', 'r') as file:
+                        data = load(file)
+                        generators[header] = UdpHGen(data)
+                        del (data)
+                except (IOError):
+                    print(header + ' format file found not found!', file=sys.stderr)
+                    sys.exit(1)
         else:
             print('Unrecognized header in the template', file=sys.stderr)
             sys.exit(3)
@@ -116,9 +125,9 @@ def main():
 
         packet = payload
 
-        for generator in reversed(generators):
-            header = generator.generate_header(packet)
-            packet = header.extend(packet)
+        for header in reversed(headers_template):
+            new_header = generators[header].generate_header(packet)
+            packet = new_header.extend(packet)
 
         with open('./output.pak', 'a') as file:
             file.write(str(len(packet)))
