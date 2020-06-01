@@ -3,28 +3,30 @@
     "name": "src_port",
     "length": 16,
     "value": {
-      "type": "full"
+      "type": "random"
     }
   },
   {
     "name": "dst_port",
     "length": 16,
     "value": {
-      "type": "full"
+      "type": "random"
     }
   },
   {
     "name": "length",
     "length": 16,
     "value": {
-      "type": "special"
+      "type": "length",
+      "of": "all"
     }
   },
   {
     "name": "checksum",
     "length": 16,
     "value": {
-      "type": "special"
+      "type": "checksum",
+      "of": "payload"
     }
   }
 ]

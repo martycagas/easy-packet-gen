@@ -23,49 +23,50 @@
     "name": "dscp",
     "length": 6,
     "value": {
-      "type": "full"
+      "type": "random"
     }
   },
   {
     "name": "ecn",
     "length": 2,
     "value": {
-      "type": "full"
+      "type": "random"
     }
   },
   {
     "name": "total_length",
     "length": 16,
     "value": {
-      "type": "special"
+      "type": "length",
+      "of": "all"
     }
   },
   {
     "name": "identification",
     "length": 16,
     "value": {
-      "type": "full"
+      "type": "random"
     }
   },
   {
     "name": "flags",
     "length": 3,
     "value": {
-      "type": "full"
+      "type": "random"
     }
   },
   {
     "name": "frag_offset",
     "length": 13,
     "value": {
-      "type": "full"
+      "type": "random"
     }
   },
   {
     "name": "ttl",
     "length": 8,
     "value": {
-      "type": "full"
+      "type": "random"
     }
   },
   {
@@ -73,7 +74,7 @@
     "length": 8,
     "value": {
       "type": "enum",
-      "format": "hex",
+      "base": 16,
       "values": [
         "0x00",
         "0x01",
@@ -230,21 +231,22 @@
     "name": "hdr_checksum",
     "length": 16,
     "value": {
-      "type": "special"
+      "type": "checksum",
+      "of": "header"
     }
   },
   {
     "name": "addr_src",
     "length": 32,
     "value": {
-      "type": "full"
+      "type": "random"
     }
   },
   {
     "name": "addr_dst",
     "length": 32,
     "value": {
-      "type": "full"
+      "type": "random"
     }
   }
 ]

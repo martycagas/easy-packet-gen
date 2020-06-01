@@ -3,14 +3,14 @@
     "name": "mac_dst",
     "length": 48,
     "value": {
-      "type": "full"
+      "type": "random"
     }
   },
   {
     "name": "mac_src",
     "length": 48,
     "value": {
-      "type": "full"
+      "type": "random"
     }
   },
   {
@@ -18,7 +18,7 @@
     "length": 16,
     "value": {
       "type": "enum",
-      "format": "hex",
+      "base": 16,
       "values": [
         "0x0800",
         "0x0806",
