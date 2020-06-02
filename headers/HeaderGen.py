@@ -10,28 +10,33 @@ from .HeaderData import HeaderData
 
 # TODO: Add docstrings
 class HeaderGen:
-    def __init__(self, structure: list):
-        for i, item in enumerate(structure):
-            if 'name' not in item or 'length' not in item:
-                print('Ethernet header generator: Invalid packet structure format at index: ' + str(i), file=stderr)
-                exit(3)
-        self.packet_structure = structure
+    def __init__(self, data: dict):
+        self.header_name = 'HEADER NAME ERROR'
+        try:
+            self.header_name = data['hdr_name']
+            self.header_length = data['hdr_length']
+            self.header_structure = data['hdr_structure']
+            for item in self.header_structure:
+                if 'name' not in item or 'length' not in item:
+                    raise KeyError
+        except KeyError as exp:
+            print('{0} header generator: {1}'.format(self.header_name, exp), file=stderr)
+            exit(3)
 
     def __repr__(self):
-        return self, self.packet_structure
+        return self, self.header_structure
 
     def __str__(self):
-        print('Ethernet header generator object'
+        print('Header generator object'
               'Fields definition:')
-        for item in self.packet_structure:
+        for item in self.header_structure:
             print('\t' + item['name'] + ': ' + str(item['length']))
 
-    def generate_header(self, packet: list, use_fast: bool) -> HeaderData:
+    def generate_header(self, payload: list, use_fast: bool) -> HeaderData:
         new_header_data = []
         bit_string = ''
-        bits_read = 0
 
-        for item in self.packet_structure:
+        for item in self.header_structure:
             try:
                 item_length = item['length']
                 format_string = '{:0' + item_length + 'b}'
@@ -53,7 +58,7 @@ class HeaderGen:
                     elif item_value_type == 'length':
                         item_value_of = item_value['of']
                         if item_value_of == 'payload':
-                            bit_string += format_string.format(len(packet))
+                            bit_string += format_string.format(len(payload))
                         elif item_value_of == 'header':
                             pass
                         elif item_value_of == 'all':
@@ -72,17 +77,12 @@ class HeaderGen:
                             raise KeyError
                     else:
                         raise KeyError
-                bits_read += item_length
-            except (KeyError):
-                print('Ethernet header generator: Invalid value format of the item' + item['name'], file=stderr)
+            except KeyError as exp:
+                print('{0} header generator: Invalid value format of the item' + item['name'], file=stderr)
                 exit(3)
 
-            if bits_read > 32:
+            while len(bit_string) > 8:
                 new_header_data.append(int(bit_string[0:8], 2))
-                new_header_data.append(int(bit_string[8:16], 2))
-                new_header_data.append(int(bit_string[16:24], 2))
-                new_header_data.append(int(bit_string[24:32], 2))
-                bits_read = 0
-                bit_string = ''
+                bit_string = bit_string[8:]
 
         return HeaderData(new_header_data)
