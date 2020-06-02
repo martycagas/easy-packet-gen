@@ -1,32 +1,36 @@
-[
-  {
-    "name": "src_port",
-    "length": 16,
-    "value": {
-      "type": "random"
+{
+  "hdr_name": "UDP",
+  "hdr_length": 64,
+  "hdr_structure": [
+    {
+      "name": "src_port",
+      "length": 16,
+      "value": {
+        "type": "random"
+      }
+    },
+    {
+      "name": "dst_port",
+      "length": 16,
+      "value": {
+        "type": "random"
+      }
+    },
+    {
+      "name": "length",
+      "length": 16,
+      "value": {
+        "type": "length",
+        "of": "all"
+      }
+    },
+    {
+      "name": "checksum",
+      "length": 16,
+      "value": {
+        "type": "checksum",
+        "of": "payload"
+      }
     }
-  },
-  {
-    "name": "dst_port",
-    "length": 16,
-    "value": {
-      "type": "random"
-    }
-  },
-  {
-    "name": "length",
-    "length": 16,
-    "value": {
-      "type": "length",
-      "of": "all"
-    }
-  },
-  {
-    "name": "checksum",
-    "length": 16,
-    "value": {
-      "type": "checksum",
-      "of": "payload"
-    }
-  }
-]
+  ]
+}
