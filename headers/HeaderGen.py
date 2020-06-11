@@ -3,6 +3,7 @@ Universal header generator
 """
 
 from sys import exit, stderr
+from os import linesep
 from random import randrange, choice
 
 from .HeaderData import HeaderData
@@ -11,7 +12,7 @@ from .HeaderData import HeaderData
 # TODO: Add docstrings
 class HeaderGen:
     def __init__(self, data: dict):
-        self.header_name = 'HEADER NAME ERROR'
+        self.header_name = 'NAME ERROR'
         try:
             self.header_name = data['hdr_name']
             self.header_length = data['hdr_length']
@@ -27,10 +28,10 @@ class HeaderGen:
         return self, self.header_structure
 
     def __str__(self):
-        print('Header generator object'
-              'Fields definition:')
+        ret_str = 'Header generator object' + linesep + 'Fields definition:'
         for item in self.header_structure:
-            print('\t' + item['name'] + ': ' + str(item['length']))
+            ret_str += '\t' + item['name'] + ': ' + str(item['length']) + linesep
+        return ret_str.strip()
 
     def generate_header(self, payload: list, use_fast: bool) -> HeaderData:
         new_header_data = []
@@ -40,7 +41,7 @@ class HeaderGen:
             try:
                 item_length = item['length']
                 format_string = '{:0' + item_length + 'b}'
-                if (use_fast is True) or ('value' not in item):
+                if use_fast or ('value' not in item):
                     bit_string += format_string.format(randrange(2 ** item_length))
                 else:
                     item_value = item['value']
