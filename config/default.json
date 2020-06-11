@@ -1,0 +1,11 @@
+{
+  "count": 1,
+  "struct-dir": "./default",
+  "out-format": 1,
+  "diff-output": null,
+  "diff-format": 1,
+  "fast": false,
+  "full-rand": false,
+  "silent": 0,
+  "verbose": 0
+}
