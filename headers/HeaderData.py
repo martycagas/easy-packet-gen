@@ -28,6 +28,3 @@ class HeaderData:
         for item in self.header_data:
             ret_string = ret_string + ' {:03d}'.format(item)
         return ret_string.strip()
-
-    def to_pcap(self) -> str:
-        pass
