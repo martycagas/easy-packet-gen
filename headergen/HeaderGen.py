@@ -6,8 +6,6 @@ from sys import exit, stderr
 from os import linesep
 from random import randrange, choice
 
-from .HeaderData import HeaderData
-
 
 # TODO: Add docstrings
 class HeaderGen:
@@ -28,12 +26,13 @@ class HeaderGen:
         return self, self.header_structure
 
     def __str__(self):
-        ret_str = 'Header generator object' + linesep + 'Fields definition:'
+        ret_str = self.header_name + ' header generator object' + linesep + 'Fields definition:'
         for item in self.header_structure:
-            ret_str += '\t' + item['name'] + ': ' + str(item['length']) + linesep
+            ret_str += linesep + '\t' + item['name'] + ': ' + str(item['length'])
         return ret_str.strip()
 
-    def generate_header(self, payload: list, use_fast: bool) -> HeaderData:
+    def generate_header(self, payload: list, use_fast: bool) -> list:
+        checksum_list = []
         new_header_data = []
         bit_string = ''
 
@@ -61,29 +60,27 @@ class HeaderGen:
                         if item_value_of == 'payload':
                             bit_string += format_string.format(len(payload))
                         elif item_value_of == 'header':
-                            pass
+                            bit_string += format_string.format(self.header_length)
                         elif item_value_of == 'all':
-                            pass
+                            bit_string += format_string.format(len(payload) + self.header_length)
                         else:
                             raise KeyError
                     elif item_value_type == 'checksum':
-                        item_value_of = item_value['of']
-                        if item_value_of == 'payload':
-                            pass
-                        elif item_value_of == 'header':
-                            pass
-                        elif item_value_of == 'all':
-                            pass
-                        else:
-                            raise KeyError
+                        bit_string += format_string.format(0)
+                        checksum_list.append({'position': 0, 'length': 0, 'of': item_value['of']})
                     else:
                         raise KeyError
             except KeyError as exp:
-                print('{0} header generator: Invalid value format of the item' + item['name'], file=stderr)
+                print(self.header_name + ' header generator: Invalid value format of an item: {0}'.format(exp),
+                      file=stderr)
                 exit(3)
 
             while len(bit_string) > 8:
                 new_header_data.append(int(bit_string[0:8], 2))
                 bit_string = bit_string[8:]
 
-        return HeaderData(new_header_data)
+        for item in checksum_list:
+            # TODO: implement checksum calculation
+            pass
+
+        return new_header_data
